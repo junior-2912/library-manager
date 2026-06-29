@@ -1,4 +1,9 @@
 package repository;
 
-public interface Repositorio {
+import java.util.List;
+
+public interface Repositorio <T>{
+    void salvar(T item);
+
+    List<T> buscarTodos();
 }
