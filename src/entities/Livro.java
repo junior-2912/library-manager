@@ -7,12 +7,12 @@ public class Livro {
     private String autor;
     private int isbn;
     private StatusLivro statusLivro;
-    
-    public Livro(String titulo, String autor, int isbn, StatusLivro statusLivro) {
+
+    public Livro(String titulo, String autor, int isbn) {
         this.titulo = titulo;
         this.autor = autor;
         this.isbn = isbn;
-        this.statusLivro = statusLivro;
+        this.statusLivro = StatusLivro.DISPONIVEL;
     }
 
     public String getTitulo() {
@@ -36,5 +36,24 @@ public class Livro {
         return titulo + " - " + autor + " - \n" + isbn + " - " + statusLivro;
     }
 
-    
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Livro livro = (Livro) o;
+        return isbn == livro.isbn;
+    }
+
+    @Override
+    public int hashCode() {
+        return isbn;
+    }
+
+    public void emprestar() {
+        this.statusLivro = StatusLivro.EMPRESTADO;
+    }
+
+    public void devolver() {
+        this.statusLivro = StatusLivro.DISPONIVEL;
+    }
 }
