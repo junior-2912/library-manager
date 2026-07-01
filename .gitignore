@@ -1,0 +1,18 @@
+# Default ignored files
+/shelf/
+/.idea/workspace.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+
+### IntelliJ ###
+.idea/
+*.iml
+out/
+
+### VSCode ###
+.vscode/
+
+### Java ###
+bin/
+target/
+*.class
