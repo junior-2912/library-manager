@@ -1,16 +1,14 @@
 package repository;
 
-import entities.Emprestimo;
-import entities.Usuario;
-import exceptions.ElementoNaoEncontradoException;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
+
+import entities.Usuario;
+import exceptions.ElementoNaoEncontradoException;
 //Classe de repositório responsável por armazenar e retornar dados.
 public class RepositorioUsuario implements Repositorio<Usuario> {
     private Set<Usuario> usuarios = new HashSet<>();
