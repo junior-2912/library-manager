@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+//Classe de repositório responsável por armazenar e retornar dados.
 public class RepositorioLivro implements Repositorio<Livro> {
 
     private Set<Livro> livros = new HashSet<>();
@@ -19,8 +20,13 @@ public class RepositorioLivro implements Repositorio<Livro> {
 
     @Override
     public boolean salvar(Livro item) {
-        adicionarArquivo(item);
-        return livros.add(item);
+        boolean adicionou = livros.add(item);
+
+        if (adicionou) {
+            adicionarArquivo(item);
+        }
+
+        return adicionou;
     }
 
     @Override
@@ -41,7 +47,7 @@ public class RepositorioLivro implements Repositorio<Livro> {
     @Override
     public void adicionarArquivo(Livro item) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("c:\\windows\\temp\\livros.csv", true))) {
-            bw.write(item.toString());
+            bw.write(item.getIsbn() + ";" + item.getTitulo() + ";" + item.getAutor());
             bw.newLine();
         } catch (IOException e) {
             System.out.println(e.getMessage());

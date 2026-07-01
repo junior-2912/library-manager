@@ -1,5 +1,7 @@
 package entities;
 
+import enums.StatusEmprestimo;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -9,6 +11,7 @@ public class Emprestimo {
     private LocalDate dataEmprestimo;
     private LocalDate dataDevolucao;
     private int id;
+    private StatusEmprestimo statusEmprestimo;
 
     public Emprestimo(Usuario usuario, Livro livro, LocalDate dataDevolucao, int id) {
         this.usuario = usuario;
@@ -16,6 +19,7 @@ public class Emprestimo {
         this.dataEmprestimo = LocalDate.now();
         this.dataDevolucao = dataDevolucao;
         this.id = id;
+        this.statusEmprestimo = StatusEmprestimo.ATIVO;
     }
 
     public Usuario getUsuario() {
@@ -38,11 +42,26 @@ public class Emprestimo {
         return id;
     }
 
+    public StatusEmprestimo getStatusEmprestimo() {
+        return statusEmprestimo;
+    }
+
+    public void setStatusEmprestimo(StatusEmprestimo statusEmprestimo) {
+        this.statusEmprestimo = statusEmprestimo;
+    }
+
+    public void finalizar(){
+        statusEmprestimo = StatusEmprestimo.FINALIZADO;
+        livro.devolver();
+    }
+
     @Override
     public String toString() {
-        return id + "\n " + usuario + " - " + livro + "\n"
+        return "-------------------------------------------\n" + id + " - " + usuario.getNome()
+                + " - " + livro.getTitulo() + "\n"
                 + "Data de emprestimo: " + dataEmprestimo.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-                + ". Data de devolucao: " + dataDevolucao.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                + ". Data de devolucao: " + dataDevolucao.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                + "\n" + statusEmprestimo;
     }
 
     @Override

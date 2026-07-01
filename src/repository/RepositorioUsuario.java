@@ -11,14 +11,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
+//Classe de repositório responsável por armazenar e retornar dados.
 public class RepositorioUsuario implements Repositorio<Usuario> {
     private Set<Usuario> usuarios = new HashSet<>();
 
     @Override
     public boolean salvar(Usuario item) {
-        adicionarArquivo(item);
-        return usuarios.add(item);
+        boolean adicionou = usuarios.add(item);
+
+        if (adicionou) {
+            adicionarArquivo(item);
+        }
+
+        return adicionou;
     }
 
     @Override
@@ -38,8 +43,8 @@ public class RepositorioUsuario implements Repositorio<Usuario> {
 
     @Override
     public void adicionarArquivo(Usuario item) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("c:\\windows\\temp\\usuarios.csv", true))) {
-            bw.write(item.toString());
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/usuarios.csv", true))) {
+            bw.write(item.getId() + ";" + item.getNome());
             bw.newLine();
         } catch (IOException e) {
             System.out.println(e.getMessage());

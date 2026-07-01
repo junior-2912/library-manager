@@ -35,7 +35,10 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return id + " - " + nome + " - " + emprestimos.stream().map(Emprestimo::getLivro);
+        return id + " - " + nome + " - " + emprestimos.stream()
+                .map(emprestimo -> emprestimo.getLivro().getTitulo()
+                        + " - Status do emprestimo: " + emprestimo.getStatusEmprestimo())
+                .toList();
     }
 
     @Override

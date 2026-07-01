@@ -1,10 +1,10 @@
 package repository;
 
-import entities.Emprestimo;
 import enums.StatusLivro;
 import exceptions.ElementoNaoEncontradoException;
 import exceptions.LimiteEmprestimoUsuarioException;
 import exceptions.LivroNaoDisponivelException;
+import entities.Emprestimo;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+//Classe de repositório responsável por armazenar e retornar dados.
 public class RepositorioEmprestimo implements Repositorio<Emprestimo> {
     private Set<Emprestimo> emprestimos = new HashSet<>();
 
@@ -22,10 +23,16 @@ public class RepositorioEmprestimo implements Repositorio<Emprestimo> {
         if (item.getLivro().getStatusLivro() == StatusLivro.DISPONIVEL) {
             //Verificando se o usuário não ultrapassou o limite de emprestimos.
             if (item.getUsuario().getNEmprestimos() < 5) {
+                //Adiciona o emprestimo na lista do usuario.
                 item.getUsuario().addEmprestimo(item);
+                //Muda o status do livro para Emprestado.
                 item.getLivro().emprestar();
-                adicionarArquivo(item);
-                return emprestimos.add(item);
+                //Salva um arquivo .csv com os dados.
+                boolean adicionou = emprestimos.add(item);
+                if (adicionou) {
+                    adicionarArquivo(item);
+                }
+                return adicionou;
             } else {
                 throw new LimiteEmprestimoUsuarioException("O usuario chegou ao limite de emprestimos permitidos!");
             }
@@ -56,7 +63,12 @@ public class RepositorioEmprestimo implements Repositorio<Emprestimo> {
 
     public void adicionarArquivo(Emprestimo item) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("c:\\windows\\temp\\emprestimos.csv", true))) {
-            bw.write(item.toString());
+            bw.write(item.getId()
+                    + ";" + item.getUsuario().getId()
+                    + ";" + item.getLivro().getIsbn()
+                    + ";" + item.getDataEmprestimo()
+                    + ";" + item.getDataDevolucao()
+                    + ";" + item.getStatusEmprestimo());
             bw.newLine();
         } catch (IOException e) {
             System.out.println(e.getMessage());

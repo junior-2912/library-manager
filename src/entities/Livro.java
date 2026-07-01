@@ -33,7 +33,7 @@ public class Livro {
 
     @Override
     public String toString() {
-        return titulo + " - " + autor + " - \n" + isbn + " - " + statusLivro;
+        return "-----------------\n" + titulo + " - " + autor + "\n" + isbn + " - " + statusLivro;
     }
 
     @Override

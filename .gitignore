@@ -8,6 +8,7 @@
 .idea/
 *.iml
 out/
+lib/
 
 ### VSCode ###
 .vscode/
